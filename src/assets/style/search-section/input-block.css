@@ -1,3 +1,19 @@
 .input-block {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    background-color: #ECEFF0;
+    width: 100%;
+    height: 34px;
+    border-radius: 4px;
+}
 
+.search-input {
+    outline: none;
+    border: 0;
+    background-color: #ECEFF0;
+    width: 100%;
+    padding-right: 4px;
+    font-family: Inter sans-serif;
 }
