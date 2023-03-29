@@ -1,6 +1,7 @@
 @import "normalize.css";
 @import "./search-section/search-section.css";
 @import "./sort-section/sort-section.css";
+@import "./table-section/table-section.css";
 body {
     background-color: #F7F7F7;
 }

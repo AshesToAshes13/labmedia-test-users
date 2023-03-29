@@ -1,0 +1,42 @@
+.users-table {
+    width: 100%;
+    text-align: left;
+    background-color: white;
+    border-radius: 7px;
+    padding: 16px;
+    margin-bottom: 12px;
+    margin-top: 15px;
+    border-spacing: 0;
+}
+
+.table-header {
+    color: #9EAAB4;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.table-header-element {
+    padding-bottom: 22px;
+}
+
+.table-content {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+}
+
+.table-content-element {
+    padding-top: 14px;
+    padding-bottom: 20px;
+    color: #ACACAC;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-top: 1px;
+    border-style: solid;
+    border-color: #F7F7F7;
+}
+
+.table-content-element_name {
+    color: #0CB4F1;
+}
