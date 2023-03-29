@@ -1,0 +1,19 @@
+@import "./sort-button.css";
+
+.sort-section {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    background: none;
+    width: 960px;
+    margin: 40px auto 0;
+}
+
+.sort-title {
+    font-family: Inter sans-serif;
+    font-size: 10px;
+    line-height: 14px;
+    font-weight: 500;
+    color: #9EAAB4;
+}
