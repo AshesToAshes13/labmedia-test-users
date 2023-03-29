@@ -93,8 +93,7 @@ function formatMonth(month) {
 
 function formatYear(year) {
     const yearArr = year.split('')
-    yearArr.splice(2, year.length - 1)
-    return yearArr.join('')
+    return `${yearArr[yearArr.length - 2]}${yearArr[yearArr.length - 1]}`
 }
 searchInput.addEventListener('input',() => {
     if (searchInput.value !== 0) {
@@ -133,6 +132,13 @@ sortByDateButton.addEventListener('click', () => {
         sortByDateButton.classList.toggle('sort-button_inactive')
         selectedFilter = 'date'
         clearButton.style.display = 'flex'
+        const sortedUser = [...users].sort((a, b) => {
+            const dateA = new Date(a.registration_date)
+            const dateB = new Date(b.registration_date)
+            return dateA.getTime() - dateB.getTime()
+        })
+        console.log(sortedUser)
+        setUpUsers(sortedUser)
     }
     if (sortByRatingButton.classList.value.includes('sort-button_active')) {
         sortByRatingButton.classList.toggle('sort-button_active')
@@ -146,6 +152,10 @@ sortByRatingButton.addEventListener('click', () => {
         sortByRatingButton.classList.toggle('sort-button_inactive')
         selectedFilter = 'rating'
         clearButton.style.display = 'flex'
+        const sortedUser = [...users].sort((a, b) => {
+            return b.rating - a.rating
+        })
+        setUpUsers(sortedUser)
     }
     if (sortByDateButton.classList.value.includes('sort-button_active')) {
         sortByDateButton.classList.toggle('sort-button_active')
