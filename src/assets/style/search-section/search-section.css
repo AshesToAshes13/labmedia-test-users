@@ -1,8 +1,7 @@
 @import "./input-block.css";
 .search-section {
-    width: 960px;
     background-color: white;
-    margin: 20px auto 0;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     padding: 12px 44px 16px 16px;
