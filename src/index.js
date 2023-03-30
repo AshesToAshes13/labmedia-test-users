@@ -69,7 +69,8 @@ constants.clearButton.addEventListener('click', () => {
     constants.searchInput.value = ''
     selectedFilter = ''
     constants.clearButton.style.display = 'none'
-    setPages(users)
+    dynamicUsers = users
+    setPages(dynamicUsers)
     if (constants.sortByDateButton.classList.value.includes('sort-button_active')) {
         constants.sortByDateButton.classList.toggle('sort-button_active')
         constants.sortByDateButton.classList.toggle('sort-button_inactive')
