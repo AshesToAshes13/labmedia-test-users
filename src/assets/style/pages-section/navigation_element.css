@@ -1,0 +1,11 @@
+.navigation-element {
+    font-size: 14px;
+    font-weight: 500;
+    color: #ACACAC;
+    cursor: pointer;
+}
+
+.navigation-element_active {
+    color: #0CB4F1;
+    text-decoration: underline;
+}
