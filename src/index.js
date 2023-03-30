@@ -59,20 +59,12 @@ constants.clearButton.addEventListener('click', () => {
     constants.clearButton.style.display = 'none'
     dynamicUsers = users
     setPages(dynamicUsers)
-    if (constants.sortByDateButton.classList.value.includes('sort-button_active')) {
-        constants.sortByDateButton.classList.toggle('sort-button_active')
-        constants.sortByDateButton.classList.toggle('sort-button_inactive')
-    }
-    if (constants.sortByRatingButton.classList.value.includes('sort-button_active')) {
-        constants.sortByRatingButton.classList.toggle('sort-button_active')
-        constants.sortByRatingButton.classList.toggle('sort-button_inactive')
-    }
+    constants.sortByDateButton.classList.remove('sort-button_active')
+    constants.sortByRatingButton.classList.remove('sort-button_active')
 })
 constants.sortByDateButton.addEventListener('click', () => {
-    if (constants.sortByDateButton.classList.value.includes('sort-button_inactive')) {
-        constants.sortByDateButton.classList.toggle('sort-button_active')
-        constants.sortByDateButton.classList.toggle('sort-button_inactive')
-    }
+    constants.sortByDateButton.classList.add('sort-button_active')
+    constants.sortByRatingButton.classList.remove('sort-button_active')
     if (selectedFilter.length === 0 ||
         selectedFilter === 'dateFromMinToMax' ||
         selectedFilter.includes('rating'))
@@ -86,18 +78,11 @@ constants.sortByDateButton.addEventListener('click', () => {
     console.log(selectedFilter)
     dynamicUsers = sortedArr
     setPages(dynamicUsers)
-
-    if (constants.sortByRatingButton.classList.value.includes('sort-button_active')) {
-        constants.sortByRatingButton.classList.toggle('sort-button_active')
-        constants.sortByRatingButton.classList.toggle('sort-button_inactive')
-    }
 })
 
 constants.sortByRatingButton.addEventListener('click', () => {
-    if (constants.sortByRatingButton.classList.value.includes('sort-button_inactive')) {
-        constants.sortByRatingButton.classList.toggle('sort-button_active')
-        constants.sortByRatingButton.classList.toggle('sort-button_inactive')
-    }
+    constants.sortByRatingButton.classList.add('sort-button_active')
+    constants.sortByDateButton.classList.remove('sort-button_active')
     if (selectedFilter.length === 0 ||
         selectedFilter === 'ratingFromMinToMax' ||
         selectedFilter.includes('date'))
@@ -111,11 +96,6 @@ constants.sortByRatingButton.addEventListener('click', () => {
     console.log(selectedFilter)
     dynamicUsers = sortedUser
     setPages(dynamicUsers)
-
-    if (constants.sortByDateButton.classList.value.includes('sort-button_active')) {
-        constants.sortByDateButton.classList.toggle('sort-button_active')
-        constants.sortByDateButton.classList.toggle('sort-button_inactive')
-    }
 })
 
 constants.usersTable.addEventListener('click', (event) => {

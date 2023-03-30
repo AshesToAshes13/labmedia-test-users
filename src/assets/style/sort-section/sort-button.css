@@ -11,16 +11,13 @@
     line-height: 14px;
     font-weight: 500;
     transition: border-color 250ms, color 250ms;
+    color: #9EAAB4;
+    border-color: #9EAAB4;
 }
 
 .sort-button_active {
     color: #333333;
     border-color: #333333;
-}
-
-.sort-button_inactive {
-    color: #9EAAB4;
-    border-color: #9EAAB4;
 }
 
 .sort-button:hover {
