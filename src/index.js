@@ -1,13 +1,13 @@
 "use strict"
 import './assets/style/styles.css'
-import { getUsers } from "./Api.js";
+import {getUsers} from "./Api.js";
 import * as constants from "./Сonstants.js";
 import {createNavigationElements, setUpUsers} from "./UIElements";
 import {sortByDate, sortByRating} from "./SortingFunctions";
 import {filteringFunction} from "./FilteringFunction";
 
-let selectedFilter = ''
-let users = []
+let currentSortType = ''
+let staticUsers = []
 let dynamicUsers = []
 let pagesArr = []
 let currentPage = 1
@@ -15,8 +15,8 @@ let userToDelete = null
 
 writeUsersInfo()
 async function writeUsersInfo() {
-    users = await getUsers()
-    dynamicUsers = [...users]
+    staticUsers = await getUsers()
+    dynamicUsers = [...staticUsers]
     setPages(dynamicUsers)
 }
 
@@ -46,18 +46,18 @@ constants.searchInput.addEventListener('input',() => {
     if (constants.searchInput.value !== 0) {
         constants.clearButton.style.display = 'flex'
     }
-    if (constants.searchInput.value.length === 0 && selectedFilter.length === 0) {
+    if (constants.searchInput.value.length === 0 && currentSortType.length === 0) {
         constants.clearButton.style.display = 'none'
     }
-    dynamicUsers = filteringFunction(users, selectedFilter)
+    dynamicUsers = filteringFunction(staticUsers, currentSortType)
     setPages(dynamicUsers)
 })
 
 constants.clearButton.addEventListener('click', () => {
     constants.searchInput.value = ''
-    selectedFilter = ''
+    currentSortType = ''
     constants.clearButton.style.display = 'none'
-    dynamicUsers = users
+    dynamicUsers = staticUsers
     setPages(dynamicUsers)
     constants.sortByDateButton.classList.remove('sort-button_active')
     constants.sortByRatingButton.classList.remove('sort-button_active')
@@ -65,36 +65,32 @@ constants.clearButton.addEventListener('click', () => {
 constants.sortByDateButton.addEventListener('click', () => {
     constants.sortByDateButton.classList.add('sort-button_active')
     constants.sortByRatingButton.classList.remove('sort-button_active')
-    if (selectedFilter.length === 0 ||
-        selectedFilter === 'dateFromMinToMax' ||
-        selectedFilter.includes('rating'))
+    if (currentSortType.length === 0 ||
+        currentSortType === 'dateFromMinToMax' ||
+        currentSortType.includes('rating'))
     {
-        selectedFilter = 'dateFromMaxToMin'
-    } else if (selectedFilter === 'dateFromMaxToMin') {
-        selectedFilter = 'dateFromMinToMax'
+        currentSortType = 'dateFromMaxToMin'
+    } else if (currentSortType === 'dateFromMaxToMin') {
+        currentSortType = 'dateFromMinToMax'
     }
     constants.clearButton.style.display = 'flex'
-    const sortedArr =  sortByDate([...dynamicUsers], selectedFilter)
-    console.log(selectedFilter)
-    dynamicUsers = sortedArr
+    dynamicUsers = sortByDate([...dynamicUsers], currentSortType)
     setPages(dynamicUsers)
 })
 
 constants.sortByRatingButton.addEventListener('click', () => {
     constants.sortByRatingButton.classList.add('sort-button_active')
     constants.sortByDateButton.classList.remove('sort-button_active')
-    if (selectedFilter.length === 0 ||
-        selectedFilter === 'ratingFromMinToMax' ||
-        selectedFilter.includes('date'))
+    if (currentSortType.length === 0 ||
+        currentSortType === 'ratingFromMinToMax' ||
+        currentSortType.includes('date'))
     {
-        selectedFilter = 'ratingFromMaxToMin'
-    } else if (selectedFilter === 'ratingFromMaxToMin') {
-        selectedFilter = 'ratingFromMinToMax'
+        currentSortType = 'ratingFromMaxToMin'
+    } else if (currentSortType === 'ratingFromMaxToMin') {
+        currentSortType = 'ratingFromMinToMax'
     }
     constants.clearButton.style.display = 'flex'
-    const sortedUser = sortByRating([...dynamicUsers], selectedFilter)
-    console.log(selectedFilter)
-    dynamicUsers = sortedUser
+    dynamicUsers = sortByRating([...dynamicUsers], currentSortType)
     setPages(dynamicUsers)
 })
 
@@ -120,7 +116,7 @@ constants.dismissDeleteButton.addEventListener('click', () => {
 
 constants.acceptDeleteButton.addEventListener('click', () => {
     constants.deleteUserSection.style.display = 'none'
-    users = users.filter(user => user.id !== userToDelete)
+    staticUsers = staticUsers.filter(user => user.id !== userToDelete)
     dynamicUsers = dynamicUsers.filter(user => user.id !== userToDelete)
     userToDelete = null
     setPages(dynamicUsers)
