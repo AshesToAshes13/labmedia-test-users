@@ -3,7 +3,8 @@ import './assets/style/styles.css'
 import { getUsers } from "./Api.js";
 import * as constants from "./Сonstants.js";
 import {createNavigationElements, setUpUsers} from "./UIElements";
-import {sortByDate, sortByRating} from "./assets/SortingFunctions";
+import {sortByDate, sortByRating} from "./SortingFunctions";
+import {filteringFunction} from "./FilteringFunction";
 
 let selectedFilter = ''
 let users = []
@@ -23,7 +24,6 @@ function setPages(usersArr) {
     pagesArr = []
     currentPage = 1
     const maxPages = Math.ceil(usersArr.length / 5)
-    // console.log(usersArr)
     const pages = Array.from({length: maxPages ? maxPages : 1}, (_, index) => index)
     pages.forEach(pageNumber => {
         const prevPage = pagesArr[pageNumber - 1]
@@ -49,20 +49,8 @@ constants.searchInput.addEventListener('input',() => {
     if (constants.searchInput.value.length === 0 && selectedFilter.length === 0) {
         constants.clearButton.style.display = 'none'
     }
-    const filteredUsers = users.filter((user) => {
-        return (
-            user.username.toLowerCase().includes(constants.searchInput.value.toLowerCase()) ||
-            user.email.toLowerCase().includes(constants.searchInput.value.toLowerCase())
-        )
-    })
-    if (selectedFilter.includes('date')) {
-        sortByDate(filteredUsers, selectedFilter)
-    }
-    if (selectedFilter.includes('rating')) {
-        sortByRating(filteredUsers, selectedFilter)
-    }
-    dynamicUsers = filteredUsers
-    setPages(filteredUsers)
+    dynamicUsers = filteringFunction(users, selectedFilter)
+    setPages(dynamicUsers)
 })
 
 constants.clearButton.addEventListener('click', () => {
@@ -114,6 +102,7 @@ constants.sortByRatingButton.addEventListener('click', () => {
     }
     constants.clearButton.style.display = 'flex'
     const sortedUser = sortByRating([...dynamicUsers], selectedFilter)
+    console.log(sortedUser)
     dynamicUsers = sortedUser
     setPages(dynamicUsers)
 
