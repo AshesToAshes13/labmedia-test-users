@@ -1,3 +1,4 @@
+"use strict"
 const searchInput = document.getElementById('searchInput')
 const clearButton = document.getElementById('clearSearchButton')
 const sortByDateButton = document.getElementById('sortByDateButton')

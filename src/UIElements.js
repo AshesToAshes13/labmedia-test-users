@@ -1,3 +1,4 @@
+"use strict"
 import * as constants from "./Сonstants";
 import {formatMonth, formatYear, formatDay} from "./helpers";
 

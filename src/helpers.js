@@ -1,3 +1,4 @@
+"use strict"
 export function formatMonth(month) {
     if (month.length === 1) {
         return '0' + month

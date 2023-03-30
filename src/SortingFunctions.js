@@ -1,3 +1,4 @@
+"use strict"
 export function sortByDate(usersArr, currentSortType) {
     if (currentSortType === 'dateFromMaxToMin') {
         return usersArr.sort((a, b) => {

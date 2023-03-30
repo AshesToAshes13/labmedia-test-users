@@ -1,3 +1,4 @@
+"use strict"
 import * as constants from "./Сonstants";
 import {sortByDate, sortByRating} from "./SortingFunctions";
 
