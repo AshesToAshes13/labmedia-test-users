@@ -90,7 +90,7 @@ constants.sortByDateButton.addEventListener('click', () => {
         selectedFilter = 'dateFromMinToMax'
     }
         constants.clearButton.style.display = 'flex'
-        const sortedArr =  sortByDate([...users], selectedFilter)
+        const sortedArr =  sortByDate([...dynamicUsers], selectedFilter)
     console.log(sortedArr)
     dynamicUsers = sortedArr
     setPages(dynamicUsers)
@@ -112,7 +112,7 @@ constants.sortByRatingButton.addEventListener('click', () => {
         selectedFilter = 'ratingFromMinToMax'
     }
     constants.clearButton.style.display = 'flex'
-    const sortedUser = sortByRating([...users], selectedFilter)
+    const sortedUser = sortByRating([...dynamicUsers], selectedFilter)
     dynamicUsers = sortedUser
     setPages(dynamicUsers)
 
