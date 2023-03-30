@@ -11,13 +11,15 @@ const usersTable = document.getElementById('usersTable')
 const pagesNavigation = document.getElementById('pagesNavigation')
 let selectedFilter = ''
 let users = []
+let dynamicUsers = []
 let pagesArr = []
 let currentPage = 1
 writeUsersInfo()
 async function writeUsersInfo() {
     const usersData = await getUsers()
     users = usersData
-    setPages(users)
+    dynamicUsers = [...users]
+    setPages(dynamicUsers)
 }
 
 function setPages(usersArr) {
@@ -54,7 +56,7 @@ function createNavigationElements(pagesArr) {
 
 function setUserToShow(pageNumber) {
     const currentPageInfo = pagesArr.find(page => page.pageNumber === pageNumber)
-    const pageUsers =  [...users].splice(currentPageInfo.startCounter, currentPageInfo.deleteCounter)
+    const pageUsers =  [...dynamicUsers].splice(currentPageInfo.startCounter, currentPageInfo.deleteCounter)
     setUpUsers(pageUsers)
 }
 function setUpUsers(users) {
@@ -125,6 +127,7 @@ searchInput.addEventListener('input',() => {
         )
     })
     console.log(filteredUsers, users)
+    dynamicUsers = filteredUsers
     setPages(filteredUsers)
 })
 
