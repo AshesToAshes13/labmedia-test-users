@@ -1,5 +1,5 @@
 import * as constants from "./Сonstants";
-import {formatMonth, formatYear} from "./helpers";
+import {formatMonth, formatYear, formatDay} from "./helpers";
 
 
 export function createNavigationElements(pagesArr, currentPage) {
@@ -38,7 +38,7 @@ export function setUpUsers(users) {
         name.textContent = user.username
         email.textContent = user.email
         const date = new Date(user.registration_date)
-        registrationsDate.textContent = `${date.getDate()}.
+        registrationsDate.textContent = `${formatDay(date.getDate().toString())}.
                                           ${formatMonth((date.getMonth() + 1).toString())}.
                                           ${formatYear(date.getFullYear().toString())}`
         rating.textContent = user.rating
