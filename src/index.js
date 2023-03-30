@@ -157,7 +157,8 @@ sortByDateButton.addEventListener('click', () => {
             return dateA.getTime() - dateB.getTime()
         })
         console.log(sortedUser)
-        setPages(sortedUser)
+        dynamicUsers = sortedUser
+        setPages(dynamicUsers)
     }
     if (sortByRatingButton.classList.value.includes('sort-button_active')) {
         sortByRatingButton.classList.toggle('sort-button_active')
@@ -174,7 +175,8 @@ sortByRatingButton.addEventListener('click', () => {
         const sortedUser = [...users].sort((a, b) => {
             return b.rating - a.rating
         })
-        setPages(sortedUser)
+        dynamicUsers = sortedUser
+        setPages(dynamicUsers)
     }
     if (sortByDateButton.classList.value.includes('sort-button_active')) {
         sortByDateButton.classList.toggle('sort-button_active')
