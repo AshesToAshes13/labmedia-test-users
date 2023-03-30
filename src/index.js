@@ -3,6 +3,7 @@ import './assets/style/styles.css'
 import { getUsers } from "./Api.js";
 import * as constants from "./Сonstants.js";
 import {createNavigationElements, setUpUsers} from "./UIElements";
+import {sortByDate, sortByRating} from "./assets/SortingFunctions";
 
 let selectedFilter = ''
 let users = []
@@ -54,7 +55,12 @@ constants.searchInput.addEventListener('input',() => {
             user.email.toLowerCase().includes(constants.searchInput.value.toLowerCase())
         )
     })
-    console.log(filteredUsers, users)
+    if (selectedFilter.includes('date')) {
+        sortByDate(filteredUsers, selectedFilter)
+    }
+    if (selectedFilter.includes('rating')) {
+        sortByRating(filteredUsers, selectedFilter)
+    }
     dynamicUsers = filteredUsers
     setPages(filteredUsers)
 })
@@ -77,17 +83,18 @@ constants.sortByDateButton.addEventListener('click', () => {
     if (constants.sortByDateButton.classList.value.includes('sort-button_inactive')) {
         constants.sortByDateButton.classList.toggle('sort-button_active')
         constants.sortByDateButton.classList.toggle('sort-button_inactive')
-        selectedFilter = 'date'
-        constants.clearButton.style.display = 'flex'
-        const sortedUser = [...users].sort((a, b) => {
-            const dateA = new Date(a.registration_date)
-            const dateB = new Date(b.registration_date)
-            return dateA.getTime() - dateB.getTime()
-        })
-        console.log(sortedUser)
-        dynamicUsers = sortedUser
-        setPages(dynamicUsers)
     }
+    if (selectedFilter.length === 0 || selectedFilter === 'dateFromMinToMax') {
+        selectedFilter = 'dateFromMaxToMin'
+    } else if (selectedFilter === 'dateFromMaxToMin') {
+        selectedFilter = 'dateFromMinToMax'
+    }
+        constants.clearButton.style.display = 'flex'
+        const sortedArr =  sortByDate([...users], selectedFilter)
+    console.log(sortedArr)
+    dynamicUsers = sortedArr
+    setPages(dynamicUsers)
+
     if (constants.sortByRatingButton.classList.value.includes('sort-button_active')) {
         constants.sortByRatingButton.classList.toggle('sort-button_active')
         constants.sortByRatingButton.classList.toggle('sort-button_inactive')
@@ -98,14 +105,17 @@ constants.sortByRatingButton.addEventListener('click', () => {
     if (constants.sortByRatingButton.classList.value.includes('sort-button_inactive')) {
         constants.sortByRatingButton.classList.toggle('sort-button_active')
         constants.sortByRatingButton.classList.toggle('sort-button_inactive')
-        selectedFilter = 'rating'
-        constants.clearButton.style.display = 'flex'
-        const sortedUser = [...users].sort((a, b) => {
-            return b.rating - a.rating
-        })
-        dynamicUsers = sortedUser
-        setPages(dynamicUsers)
     }
+    if (selectedFilter.length === 0 || selectedFilter === 'ratingFromMinToMax') {
+        selectedFilter = 'ratingFromMaxToMin'
+    } else if (selectedFilter === 'ratingFromMaxToMin') {
+        selectedFilter = 'ratingFromMinToMax'
+    }
+    constants.clearButton.style.display = 'flex'
+    const sortedUser = sortByRating([...users], selectedFilter)
+    dynamicUsers = sortedUser
+    setPages(dynamicUsers)
+
     if (constants.sortByDateButton.classList.value.includes('sort-button_active')) {
         constants.sortByDateButton.classList.toggle('sort-button_active')
         constants.sortByDateButton.classList.toggle('sort-button_inactive')
@@ -115,8 +125,6 @@ constants.sortByRatingButton.addEventListener('click', () => {
 constants.usersTable.addEventListener('click', (event) => {
     if (event.target.parentNode.dataset.uid || event.target.dataset.uid) {
         const uid = event.target.parentNode.dataset.uid
-        // users = users.filter(user => user.id !== uid)
-        // setPages(users)
         constants.deleteUserSection.style.display = 'flex'
         userToDelete = uid
     }
