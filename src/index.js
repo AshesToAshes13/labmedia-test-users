@@ -8,6 +8,7 @@ const clearButton = document.getElementById('clearSearchButton')
 const sortByDateButton = document.getElementById('sortByDateButton')
 const sortByRatingButton = document.getElementById('sortByRatingButton')
 const usersTable = document.getElementById('usersTable')
+const pagesNavigation = document.getElementById('pagesNavigation')
 let selectedFilter = ''
 let users = []
 let pagesArr = []
@@ -16,7 +17,7 @@ writeUsersInfo()
 async function writeUsersInfo() {
     const usersData = await getUsers()
     users = usersData
-    setUpUsers(users)
+    setPages(users)
 }
 
 function setPages(usersArr) {
@@ -33,12 +34,27 @@ function setPages(usersArr) {
             deleteCounter: 5
         })
     })
+    createNavigationElements(pagesArr)
     setUserToShow(currentPage)
+}
+
+function createNavigationElements(pagesArr) {
+    pagesNavigation.innerHTML = ''
+    pagesArr.forEach(page => {
+        const navElement = document.createElement('p')
+        navElement.textContent = page.pageNumber
+        navElement.classList.add('navigation-element')
+        navElement.dataset.pageNumber = page.pageNumber
+        if (page.pageNumber === currentPage) {
+            navElement.classList.add('navigation-element_active')
+        }
+        pagesNavigation.appendChild(navElement)
+    })
 }
 
 function setUserToShow(pageNumber) {
     const currentPageInfo = pagesArr.find(page => page.pageNumber === pageNumber)
-    const pageUsers =  users.splice(currentPageInfo.startCounter, currentPageInfo.deleteCounter)
+    const pageUsers =  [...users].splice(currentPageInfo.startCounter, currentPageInfo.deleteCounter)
     setUpUsers(pageUsers)
 }
 function setUpUsers(users) {
@@ -109,14 +125,14 @@ searchInput.addEventListener('input',() => {
         )
     })
     console.log(filteredUsers, users)
-    setUpUsers(filteredUsers)
+    setPages(filteredUsers)
 })
 
 clearButton.addEventListener('click', () => {
     searchInput.value = ''
     selectedFilter = ''
     clearButton.style.display = 'none'
-    setUpUsers(users)
+    setPages(users)
     if (sortByDateButton.classList.value.includes('sort-button_active')) {
         sortByDateButton.classList.toggle('sort-button_active')
         sortByDateButton.classList.toggle('sort-button_inactive')
@@ -138,7 +154,7 @@ sortByDateButton.addEventListener('click', () => {
             return dateA.getTime() - dateB.getTime()
         })
         console.log(sortedUser)
-        setUpUsers(sortedUser)
+        setPages(sortedUser)
     }
     if (sortByRatingButton.classList.value.includes('sort-button_active')) {
         sortByRatingButton.classList.toggle('sort-button_active')
@@ -155,7 +171,7 @@ sortByRatingButton.addEventListener('click', () => {
         const sortedUser = [...users].sort((a, b) => {
             return b.rating - a.rating
         })
-        setUpUsers(sortedUser)
+        setPages(sortedUser)
     }
     if (sortByDateButton.classList.value.includes('sort-button_active')) {
         sortByDateButton.classList.toggle('sort-button_active')
@@ -167,6 +183,19 @@ usersTable.addEventListener('click', (event) => {
     if (event.target.parentNode.dataset.uid || event.target.dataset.uid) {
         const uid = event.target.parentNode.dataset.uid
         users = users.filter(user => user.id !== uid)
-        setUpUsers(users)
+        setPages(users)
+    }
+})
+
+pagesNavigation.addEventListener('click', (event) => {
+    const elements =  pagesNavigation.childNodes
+    if (event.target.dataset.pageNumber) {
+        const newPage = Number(event.target.dataset.pageNumber)
+        if (newPage !== currentPage) {
+            elements.forEach(elem => elem.classList.remove('navigation-element_active'))
+            currentPage = newPage
+            setUserToShow(newPage)
+            event.target.classList.add('navigation-element_active')
+        }
     }
 })
