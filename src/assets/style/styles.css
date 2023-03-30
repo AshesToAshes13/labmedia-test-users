@@ -3,6 +3,7 @@
 @import "./sort-section/sort-section.css";
 @import "./table-section/table-section.css";
 @import "./pages-section/pages-section.css";
+@import "./delete-user-modal-section/delete-user-modal-section.css";
 body {
     background-color: #F7F7F7;
 }

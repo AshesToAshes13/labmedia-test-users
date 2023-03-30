@@ -1,0 +1,14 @@
+@import "./modal-buttons-block.css";
+.delete-user-modal {
+    background: white;
+    border-radius: 7px;
+    width: 350px;
+    height: 135px;
+}
+
+.modal-title {
+    font-weight: 400;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 36px;
+}

@@ -9,11 +9,15 @@ const sortByDateButton = document.getElementById('sortByDateButton')
 const sortByRatingButton = document.getElementById('sortByRatingButton')
 const usersTable = document.getElementById('usersTable')
 const pagesNavigation = document.getElementById('pagesNavigation')
+const deleteUserSection = document.getElementById('deleteUserSection')
+const acceptDeleteButton = document.getElementById('accept')
+const dismissDeleteButton = document.getElementById('dismiss')
 let selectedFilter = ''
 let users = []
 let dynamicUsers = []
 let pagesArr = []
 let currentPage = 1
+let userToDelete = null
 writeUsersInfo()
 async function writeUsersInfo() {
     const usersData = await getUsers()
@@ -187,9 +191,31 @@ sortByRatingButton.addEventListener('click', () => {
 usersTable.addEventListener('click', (event) => {
     if (event.target.parentNode.dataset.uid || event.target.dataset.uid) {
         const uid = event.target.parentNode.dataset.uid
-        users = users.filter(user => user.id !== uid)
-        setPages(users)
+        // users = users.filter(user => user.id !== uid)
+        // setPages(users)
+        deleteUserSection.style.display = 'flex'
+        userToDelete = uid
     }
+})
+
+deleteUserSection.addEventListener('click', (event) => {
+    if (event.target.id === 'deleteUserSection') {
+        deleteUserSection.style.display = 'none'
+        userToDelete = null
+    }
+})
+
+dismissDeleteButton.addEventListener('click', () => {
+    deleteUserSection.style.display = 'none'
+    userToDelete = null
+})
+
+acceptDeleteButton.addEventListener('click', () => {
+    deleteUserSection.style.display = 'none'
+    users = users.filter(user => user.id !== userToDelete)
+    dynamicUsers = dynamicUsers.filter(user => user.id !== userToDelete)
+    userToDelete = null
+    setPages(dynamicUsers)
 })
 
 pagesNavigation.addEventListener('click', (event) => {
