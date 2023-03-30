@@ -12,10 +12,10 @@ let dynamicUsers = []
 let pagesArr = []
 let currentPage = 1
 let userToDelete = null
+
 writeUsersInfo()
 async function writeUsersInfo() {
-    const usersData = await getUsers()
-    users = usersData
+    users = await getUsers()
     dynamicUsers = [...users]
     setPages(dynamicUsers)
 }
@@ -73,14 +73,17 @@ constants.sortByDateButton.addEventListener('click', () => {
         constants.sortByDateButton.classList.toggle('sort-button_active')
         constants.sortByDateButton.classList.toggle('sort-button_inactive')
     }
-    if (selectedFilter.length === 0 || selectedFilter === 'dateFromMinToMax') {
+    if (selectedFilter.length === 0 ||
+        selectedFilter === 'dateFromMinToMax' ||
+        selectedFilter.includes('rating'))
+    {
         selectedFilter = 'dateFromMaxToMin'
     } else if (selectedFilter === 'dateFromMaxToMin') {
         selectedFilter = 'dateFromMinToMax'
     }
-        constants.clearButton.style.display = 'flex'
-        const sortedArr =  sortByDate([...dynamicUsers], selectedFilter)
-    console.log(sortedArr)
+    constants.clearButton.style.display = 'flex'
+    const sortedArr =  sortByDate([...dynamicUsers], selectedFilter)
+    console.log(selectedFilter)
     dynamicUsers = sortedArr
     setPages(dynamicUsers)
 
@@ -95,14 +98,17 @@ constants.sortByRatingButton.addEventListener('click', () => {
         constants.sortByRatingButton.classList.toggle('sort-button_active')
         constants.sortByRatingButton.classList.toggle('sort-button_inactive')
     }
-    if (selectedFilter.length === 0 || selectedFilter === 'ratingFromMinToMax') {
+    if (selectedFilter.length === 0 ||
+        selectedFilter === 'ratingFromMinToMax' ||
+        selectedFilter.includes('date'))
+    {
         selectedFilter = 'ratingFromMaxToMin'
     } else if (selectedFilter === 'ratingFromMaxToMin') {
         selectedFilter = 'ratingFromMinToMax'
     }
     constants.clearButton.style.display = 'flex'
     const sortedUser = sortByRating([...dynamicUsers], selectedFilter)
-    console.log(sortedUser)
+    console.log(selectedFilter)
     dynamicUsers = sortedUser
     setPages(dynamicUsers)
 
