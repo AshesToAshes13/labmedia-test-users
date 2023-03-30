@@ -1,17 +1,8 @@
 "use strict"
 import './assets/style/styles.css'
 import { getUsers } from "./Api.js";
+import * as constants from "./constants.js";
 
-
-const searchInput = document.getElementById('searchInput')
-const clearButton = document.getElementById('clearSearchButton')
-const sortByDateButton = document.getElementById('sortByDateButton')
-const sortByRatingButton = document.getElementById('sortByRatingButton')
-const usersTable = document.getElementById('usersTable')
-const pagesNavigation = document.getElementById('pagesNavigation')
-const deleteUserSection = document.getElementById('deleteUserSection')
-const acceptDeleteButton = document.getElementById('accept')
-const dismissDeleteButton = document.getElementById('dismiss')
 let selectedFilter = ''
 let users = []
 let dynamicUsers = []
@@ -45,7 +36,7 @@ function setPages(usersArr) {
 }
 
 function createNavigationElements(pagesArr) {
-    pagesNavigation.innerHTML = ''
+    constants.pagesNavigation.innerHTML = ''
     pagesArr.forEach(page => {
         const navElement = document.createElement('p')
         navElement.textContent = page.pageNumber
@@ -54,7 +45,7 @@ function createNavigationElements(pagesArr) {
         if (page.pageNumber === currentPage) {
             navElement.classList.add('navigation-element_active')
         }
-        pagesNavigation.appendChild(navElement)
+        constants.pagesNavigation.appendChild(navElement)
     })
 }
 
@@ -64,7 +55,7 @@ function setUserToShow(pageNumber) {
     setUpUsers(pageUsers)
 }
 function setUpUsers(users) {
-    usersTable.innerHTML = ''
+    constants.usersTable.innerHTML = ''
 
     users.forEach(user => {
         const tableElement = document.createElement('tr')
@@ -101,7 +92,7 @@ function setUpUsers(users) {
         tableElement.appendChild(rating)
         tableElement.appendChild(deleteUser)
 
-        usersTable.appendChild(tableElement)
+        constants.usersTable.appendChild(tableElement)
     })
 }
 
@@ -117,17 +108,17 @@ function formatYear(year) {
     const yearArr = year.split('')
     return `${yearArr[yearArr.length - 2]}${yearArr[yearArr.length - 1]}`
 }
-searchInput.addEventListener('input',() => {
-    if (searchInput.value !== 0) {
-        clearButton.style.display = 'flex'
+constants.searchInput.addEventListener('input',() => {
+    if (constants.searchInput.value !== 0) {
+        constants.clearButton.style.display = 'flex'
     }
-    if (searchInput.value.length === 0 && selectedFilter.length === 0) {
-        clearButton.style.display = 'none'
+    if (constants.searchInput.value.length === 0 && selectedFilter.length === 0) {
+        constants.clearButton.style.display = 'none'
     }
     const filteredUsers = users.filter((user) => {
         return (
-            user.username.toLowerCase().includes(searchInput.value.toLowerCase()) ||
-            user.email.toLowerCase().includes(searchInput.value.toLowerCase())
+            user.username.toLowerCase().includes(constants.searchInput.value.toLowerCase()) ||
+            user.email.toLowerCase().includes(constants.searchInput.value.toLowerCase())
         )
     })
     console.log(filteredUsers, users)
@@ -135,26 +126,26 @@ searchInput.addEventListener('input',() => {
     setPages(filteredUsers)
 })
 
-clearButton.addEventListener('click', () => {
-    searchInput.value = ''
+constants.clearButton.addEventListener('click', () => {
+    constants.searchInput.value = ''
     selectedFilter = ''
-    clearButton.style.display = 'none'
+    constants.clearButton.style.display = 'none'
     setPages(users)
-    if (sortByDateButton.classList.value.includes('sort-button_active')) {
-        sortByDateButton.classList.toggle('sort-button_active')
-        sortByDateButton.classList.toggle('sort-button_inactive')
+    if (constants.sortByDateButton.classList.value.includes('sort-button_active')) {
+        constants.sortByDateButton.classList.toggle('sort-button_active')
+        constants.sortByDateButton.classList.toggle('sort-button_inactive')
     }
-    if (sortByRatingButton.classList.value.includes('sort-button_active')) {
-        sortByRatingButton.classList.toggle('sort-button_active')
-        sortByRatingButton.classList.toggle('sort-button_inactive')
+    if (constants.sortByRatingButton.classList.value.includes('sort-button_active')) {
+        constants.sortByRatingButton.classList.toggle('sort-button_active')
+        constants.sortByRatingButton.classList.toggle('sort-button_inactive')
     }
 })
-sortByDateButton.addEventListener('click', () => {
-    if (sortByDateButton.classList.value.includes('sort-button_inactive')) {
-        sortByDateButton.classList.toggle('sort-button_active')
-        sortByDateButton.classList.toggle('sort-button_inactive')
+constants.sortByDateButton.addEventListener('click', () => {
+    if (constants.sortByDateButton.classList.value.includes('sort-button_inactive')) {
+        constants.sortByDateButton.classList.toggle('sort-button_active')
+        constants.sortByDateButton.classList.toggle('sort-button_inactive')
         selectedFilter = 'date'
-        clearButton.style.display = 'flex'
+        constants.clearButton.style.display = 'flex'
         const sortedUser = [...users].sort((a, b) => {
             const dateA = new Date(a.registration_date)
             const dateB = new Date(b.registration_date)
@@ -164,62 +155,62 @@ sortByDateButton.addEventListener('click', () => {
         dynamicUsers = sortedUser
         setPages(dynamicUsers)
     }
-    if (sortByRatingButton.classList.value.includes('sort-button_active')) {
-        sortByRatingButton.classList.toggle('sort-button_active')
-        sortByRatingButton.classList.toggle('sort-button_inactive')
+    if (constants.sortByRatingButton.classList.value.includes('sort-button_active')) {
+        constants.sortByRatingButton.classList.toggle('sort-button_active')
+        constants.sortByRatingButton.classList.toggle('sort-button_inactive')
     }
 })
 
-sortByRatingButton.addEventListener('click', () => {
-    if (sortByRatingButton.classList.value.includes('sort-button_inactive')) {
-        sortByRatingButton.classList.toggle('sort-button_active')
-        sortByRatingButton.classList.toggle('sort-button_inactive')
+constants.sortByRatingButton.addEventListener('click', () => {
+    if (constants.sortByRatingButton.classList.value.includes('sort-button_inactive')) {
+        constants.sortByRatingButton.classList.toggle('sort-button_active')
+        constants.sortByRatingButton.classList.toggle('sort-button_inactive')
         selectedFilter = 'rating'
-        clearButton.style.display = 'flex'
+        constants.clearButton.style.display = 'flex'
         const sortedUser = [...users].sort((a, b) => {
             return b.rating - a.rating
         })
         dynamicUsers = sortedUser
         setPages(dynamicUsers)
     }
-    if (sortByDateButton.classList.value.includes('sort-button_active')) {
-        sortByDateButton.classList.toggle('sort-button_active')
-        sortByDateButton.classList.toggle('sort-button_inactive')
+    if (constants.sortByDateButton.classList.value.includes('sort-button_active')) {
+        constants.sortByDateButton.classList.toggle('sort-button_active')
+        constants.sortByDateButton.classList.toggle('sort-button_inactive')
     }
 })
 
-usersTable.addEventListener('click', (event) => {
+constants.usersTable.addEventListener('click', (event) => {
     if (event.target.parentNode.dataset.uid || event.target.dataset.uid) {
         const uid = event.target.parentNode.dataset.uid
         // users = users.filter(user => user.id !== uid)
         // setPages(users)
-        deleteUserSection.style.display = 'flex'
+        constants.deleteUserSection.style.display = 'flex'
         userToDelete = uid
     }
 })
 
-deleteUserSection.addEventListener('click', (event) => {
+constants.deleteUserSection.addEventListener('click', (event) => {
     if (event.target.id === 'deleteUserSection') {
-        deleteUserSection.style.display = 'none'
+        constants.deleteUserSection.style.display = 'none'
         userToDelete = null
     }
 })
 
-dismissDeleteButton.addEventListener('click', () => {
-    deleteUserSection.style.display = 'none'
+constants.dismissDeleteButton.addEventListener('click', () => {
+    constants.deleteUserSection.style.display = 'none'
     userToDelete = null
 })
 
-acceptDeleteButton.addEventListener('click', () => {
-    deleteUserSection.style.display = 'none'
+constants.acceptDeleteButton.addEventListener('click', () => {
+    constants.deleteUserSection.style.display = 'none'
     users = users.filter(user => user.id !== userToDelete)
     dynamicUsers = dynamicUsers.filter(user => user.id !== userToDelete)
     userToDelete = null
     setPages(dynamicUsers)
 })
 
-pagesNavigation.addEventListener('click', (event) => {
-    const elements =  pagesNavigation.childNodes
+constants.pagesNavigation.addEventListener('click', (event) => {
+    const elements =  constants.pagesNavigation.childNodes
     if (event.target.dataset.pageNumber) {
         const newPage = Number(event.target.dataset.pageNumber)
         if (newPage !== currentPage) {
